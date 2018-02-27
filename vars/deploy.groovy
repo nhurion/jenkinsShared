@@ -2,7 +2,7 @@
 
 def call(String projectName, String jarName, String deploymentEnv = 'dev', String deploymentServer = '46.226.109.170', String deploymentUser = 'deploy') {
 
-    val filePath = "/opt/projects/${deploymentEnv}/${projectName}/"
+    def filePath = "/opt/projects/${deploymentEnv}/${projectName}/"
     //input 'Do you approve the deployment?'
     echo "Deploying ${projectName} on ${deploymentEnv}"
     unstash "target"
