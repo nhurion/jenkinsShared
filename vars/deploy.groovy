@@ -5,7 +5,7 @@ def call(String projectName, String jarName, String deploymentEnv = 'dev', boole
     def approved = !approvalRequired
     if (approvalRequired) {
         approved = input "Do you approve the deployment of ${projectName} on ${deploymentEnv}?"
-        echo "appovedd : ${approved}"
+        echo "appoved : $approved"
     }
     if (approved) {
         echo "Deploying ${projectName} on ${deploymentEnv}"
