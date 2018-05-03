@@ -4,7 +4,7 @@ def call(String projectName, String jarName, String deploymentEnv = 'dev', boole
     def filePath = "/opt/projects/${deploymentEnv}/${projectName}/"
     def approved = !approvalRequired
     if (approvalRequired) {
-        approved = input "Do you approve the deployment of ${projectName} on ${deploymentEnv}?"
+        approved = deployOnEnv(projectName, deploymentEnv)
         echo "appoved : $approved"
     }
     if (approved) {
@@ -17,4 +17,16 @@ def call(String projectName, String jarName, String deploymentEnv = 'dev', boole
             sh "ssh -f ${deploymentUser}@${deploymentServer} 'cd ${filePath} && nohup java -jar ${filePath}${jarName} & '"
         }
     }
+}
+
+def deployOnEnv(String projectName, String deploymentEnv = 'dev') {
+  try {
+    timeout(time: 50, unit: 'MINUTES') {
+        def approval = input message: "Do you approve the deployment of ${projectName} on ${deploymentEnv}?", 
+                    parameters: [booleanParam(defaultValue: false, description: '', name: 'approvalResponse')]
+        return approval
+    }
+  } catch(e) {
+    return false
+  }
 }
